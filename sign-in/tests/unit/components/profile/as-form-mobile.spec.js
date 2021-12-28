@@ -144,18 +144,11 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
       })
     })
     describe('input#verification-code', () => {
-      let input, stub, wrapper
+      let input, stub
       beforeEach(async () => {
-        wrapper = await shallowMount(as_form, {
-          props: { person },
-          data() {
-            return {
-              show_code: true,
-              code: '12345'
-            }
-          }
-        })
-
+        wrapper.vm.show_code = true
+        wrapper.vm.code = '12345'
+        await wrapper.vm.$forceUpdate()
         input = wrapper.find('#verification-code')
         stub = jest.fn()
       })
@@ -166,7 +159,18 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
         })
         expect(stub).not.toBeCalled()
       })
-      it('Only accept numbers', () => {
+      it('Only accept numbers length equal to 5', () => {
+        const button = wrapper.find('#submit-verification')
+        input.trigger('keypress', {
+          key: 'a',
+          preventDefault: stub
+        })
+        expect(stub).toBeCalled()
+        expect(button.attributes().disabled).toBe(undefined)
+      })
+      it('Only accept numbers length less than 5', async () => {
+        wrapper.vm.code = '123'
+        await wrapper.vm.$forceUpdate()
         input.trigger('keypress', {
           key: 'a',
           preventDefault: stub
@@ -174,13 +178,11 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
         expect(stub).toBeCalled()
       })
       it('Renders sign on button with valid input', () => {
-        const button = wrapper.find('#submit-verification')
         input.trigger('keypress', {
           key: '6',
           preventDefault: stub
         })
         expect(stub).not.toBeCalled()
-        expect(button.attributes().disabled).toBe(undefined)
       })
     })
     describe('button#submit-verification', () => {
@@ -188,14 +190,10 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
       beforeEach(async () => {
         confirm_spy = jest.fn(() => Promise.resolve('result of confirm_spy'))
         wrapper = await shallowMount(as_form, {
-          props: { person },
-          data() {
-            return {
-              show_code: true,
-              authorizer: { confirm: confirm_spy }
-            }
-          }
+          props: { person }
         })
+        wrapper.vm.authorizer = { confirm: confirm_spy }
+        wrapper.vm.show_code = true
         await flushPromises()
         button = wrapper.find('#submit-verification')
       })
@@ -213,6 +211,24 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
         await wrapper.vm.sign_in_with_code()
         expect(wrapper.emitted('signed-on')).toBeTruthy()
       })
+      it('Invalid verification code when the user is signed on', async () => {
+        confirm_spy = jest.fn(() =>
+          Promise.reject({ code: 'auth/invalid-verification-code' })
+        )
+        wrapper.vm.authorizer = { confirm: confirm_spy }
+        await wrapper.vm.$forceUpdate()
+        await wrapper.vm.sign_in_with_code()
+        expect(wrapper.emitted('signed-on')).toBeFalsy()
+      })
+      it('Other than Invalid verification when the user is signed on', async () => {
+        confirm_spy = jest.fn(() =>
+          Promise.reject({ code: 'other error than invalid verification code' })
+        )
+        wrapper.vm.authorizer = { confirm: confirm_spy }
+        await wrapper.vm.$forceUpdate()
+        await wrapper.vm.sign_in_with_code()
+        expect(wrapper.emitted('signed-on')).toBeFalsy()
+      })
     })
   })
   describe('Methods', () => {
@@ -222,9 +238,7 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
         wrapper = await shallowMount(as_form, {
           props: { person }
         })
-        wrapper.setData({
-          show_code: true
-        })
+        wrapper.vm.show_code = true
       })
       it('Hides captcha div', () => {
         wrapper.vm.text_human_verify_code()
@@ -241,8 +255,22 @@ describe('@/compontent/profile/as-form-mobile.vue', () => {
       it('Emites updates when mobile number is changed', async () => {
         const wrapper = await shallowMount(as_form, { props: { person } })
         await flushPromises()
-        wrapper.vm.mobile = '415'
+        wrapper.vm.cell = '415'
         expect(wrapper.emitted('update:person')).toBeTruthy()
+      })
+    })
+  })
+  describe('Computed', () => {
+    describe('mobile', () => {
+      it('Return Mobile when props mobile is empty', async () => {
+        const person = {
+          id: '/+14151234356',
+          first_name: 'Scott',
+          last_name: 'Fryxell',
+          mobile: ''
+        }
+        const wrapper = await shallowMount(as_form, { props: { person } })
+        expect(wrapper.find('legend').text()).toBe('Mobile')
       })
     })
   })
