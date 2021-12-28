@@ -1,4 +1,3 @@
-
 ### Configure firebase
 
 Create a project from the [firebase console](https://console.firebase.google.com).

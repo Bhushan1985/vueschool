@@ -5,12 +5,11 @@
   "description": "A simple sign up form",
   "author": "",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "test": "TZ=UTC vue-cli-service test:unit --coverage",
-    "lint": "vue-cli-service lint",
+    "dev": "vite",
+    "test": "jest tests/unit --coverage",
+    "lint": "eslint src",
     "format": "prettier .  --write",
-    "deploy": "yarn lint && yarn test --coverage --verbose && yarn build && firebase deploy --only hosting,storage -m $npm_package_version"
+    "deploy": "vite build"    
   },
   "dependencies": {
     "@realness.online/potrace": "2.1.23",
@@ -29,8 +28,10 @@
     "@babel/core": "^7.12.9",
     "@babel/eslint-parser": "^7.12.1",
     "@babel/plugin-proposal-optional-chaining": "^7.16.0",
+    "@rollup/plugin-alias": "^3.1.8",
     "@testing-library/cypress": "^8.0.1",
     "@testing-library/vue": "^5.8.2",
+    "@vitejs/plugin-vue": "^2.0.1",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.13",
@@ -68,6 +69,7 @@
     "ts-jest": "^26.5.6",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4",
+    "vite": "^2.7.9",
     "vue-jest": "^5.0.0-alpha.10",
     "vue-router-mock": "^0.1.2",
     "webpack": "^5.9.0",
@@ -211,10 +213,10 @@
   },
   "babel": {
     "presets": [
-      "@vue/cli-plugin-babel/preset"
+      "@babel/preset-env"
     ],
     "plugins": [
-      "@babel/plugin-proposal-optional-chaining"
+      "@babel/plugin-proposal-optional-chaining"      
     ]
   },
   "license": "UNLICENSED"

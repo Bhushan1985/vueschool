@@ -1,1 +1,1 @@
-global.window.document.activeElement = {}
+// global.window.document.activeElement = {}

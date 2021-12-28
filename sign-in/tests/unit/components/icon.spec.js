@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import icon from '@/components/icon'
+import icon from '@/components/icon.vue'
 
 describe('@/components/icon', () => {
   describe('Renders', () => {
