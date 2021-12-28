@@ -13,43 +13,31 @@
     <name-as-form v-if="nameless" v-model:person="person" @valid="new_person" />
   </section>
 </template>
-<script>
+<script setup>
+  import { ref } from 'vue'
   import firebase from 'firebase/app'
   import 'firebase/auth'
-  import mobile_as_form from '@/components/profile/as-form-mobile'
-  import name_as_form from '@/components/profile/as-form-name'
-  import signed_on from '@/mixins/signed_in'
-  export default {
-    components: {
-      'mobile-as-form': mobile_as_form,
-      'name-as-form': name_as_form
-    },
-    mixins: [signed_on],
-    data() {
-      return {
-        nameless: false,
-        person: {
-          mobile: ''
-        }
-      }
-    },
-    async created() {
-      firebase.auth().onAuthStateChanged(this.auth_state)
-    },
-    methods: {
-      auth_state(user) {
-        if (user && this.person) this.person.mobile = null
-      },
-      async signed_on() {
-        this.nameless = true
-      },
-      sign_off() {
-        firebase.auth().signOut()
-      },
-      new_person() {
-        this.nameless = false
-      }
-    }
+  import MobileAsForm from '@/components/profile/as-form-mobile'
+  import NameAsForm from '@/components/profile/as-form-name'
+  import authentication from '@/mixins/signed_in'
+
+  const nameless = ref(false)
+  const person = ref({ mobile: '' })
+  const { signed_in } = authentication()
+
+  firebase.auth().onAuthStateChanged(auth_state)
+
+  function auth_state(user) {
+    if (user && person) person.value.mobile = null
+  }
+  async function signed_on() {
+    nameless.value = true
+  }
+  function sign_off() {
+    firebase.auth().signOut()
+  }
+  function new_person() {
+    nameless.value = false
   }
 </script>
 <style lang="stylus">
