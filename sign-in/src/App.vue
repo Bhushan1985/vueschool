@@ -70,16 +70,16 @@
 <style src="@/style/index.styl" lang="stylus"></style>
 
 <style lang="stylus">
-  //   main
-  //     border: (base-line / 16) solid transparent
-  //     border-radius (base-line / 16)
-  //     &.offline
-  //       border-color: yellow
-  //     &.working
-  //       border-color: green
-  //       animation-name: pulsing
-  //       animation-duration: 5s
-  //       animation-delay: 200ms
-  //       animation-iteration-count: infinite
-  //
+  main
+    border: (base-line / 16) solid transparent
+    border-radius (base-line / 16)
+    &.offline
+      border-color: yellow
+    &.working
+      border-color: green
+      animation-name: pulsing
+      animation-duration: 5s
+      animation-delay: 200ms
+      animation-iteration-count: infinite
+  
 </style>

@@ -5,11 +5,11 @@
   "description": "A simple sign up form",
   "author": "",
   "scripts": {
-    "dev": "vite",
+    "serve": "vite",
     "test": "jest tests/unit --coverage",
     "lint": "eslint src",
     "format": "prettier .  --write",
-    "deploy": "vite build"    
+    "deploy": "yarn lint && yarn test --coverage --verbose && vite build && firebase deploy --only hosting,storage -m $npm_package_version"
   },
   "dependencies": {
     "@realness.online/potrace": "2.1.23",

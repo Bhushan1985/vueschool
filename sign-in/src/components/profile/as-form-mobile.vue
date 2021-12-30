@@ -187,22 +187,20 @@
   }
 </script>
 
-//
 <style lang="stylus">
-  //   form#profile-mobile
-  //     animation-name: slide-in-left
-  //     svg.remove
-  //       fill: red
-  //     fieldset
-  //       margin-bottom: base-line
-  //     input#mobile
-  //       min-width: (40% - base-line * 2)
-  //       margin-right: base-line
-  //     button#sign-out
-  //       border: none
-  //       padding: 0
-  //     menu
-  //       display: flex
-  //       justify-content: flex-end
-  //
+    form#profile-mobile
+      animation-name: slide-in-left
+      svg.remove
+        fill: red
+      fieldset
+        margin-bottom: 10px
+      input#mobile
+        min-width: calc(40% - calc(10px * 2))
+        margin-right: 10px
+      button#sign-out
+        border: none
+        padding: 0
+      menu
+        display: flex
+        justify-content: flex-end
 </style>
