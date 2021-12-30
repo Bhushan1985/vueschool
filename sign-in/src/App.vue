@@ -16,7 +16,9 @@
   const statement = ref(null)
   const status = ref(null)
 
-  const is_production = computed(() => process.env.NODE_ENV === 'production')
+  const is_production = computed(
+    () => import.meta.env.NODE_ENV === 'production'
+  )
 
   const initLoad = async () => {
     if (is_production.value) {
@@ -24,12 +26,12 @@
       await set('firebase-keys', await response.json())
     } else {
       const keys = {
-        apiKey: process.env.VUE_APP_API_KEY,
-        authDomain: process.env.VUE_APP_AUTH_DOMAIN,
-        databaseUrl: process.env.VUE_APP_DATABASE_URL,
-        projectId: process.env.VUE_APP_PROJECT_ID,
-        storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
-        messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID
+        apiKey: import.meta.env.VITE_API_KEY,
+        authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+        databaseUrl: import.meta.env.VITE_DATABASE_URL,
+        projectId: import.meta.env.VITE_PROJECT_ID,
+        storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID
       }
       await set('firebase-keys', keys)
     }
@@ -66,6 +68,7 @@
   initLoad()
 </script>
 <style src="@/style/index.styl" lang="stylus"></style>
+
 <style lang="stylus">
   main
     border: (base-line / 16) solid transparent

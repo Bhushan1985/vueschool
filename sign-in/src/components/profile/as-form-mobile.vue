@@ -50,7 +50,7 @@
   import firebase from 'firebase/app'
   import 'firebase/auth'
   import { as_phone_number } from '@/use/profile'
-  import icon from '@/components/icon'
+  import icon from '@/components/icon.vue'
   import * as libphonenumber from 'libphonenumber-js'
 
   const validate = ref(null)
@@ -193,10 +193,10 @@
     svg.remove
       fill: red
     fieldset
-      margin-bottom: base-line
+      margin-bottom: 10px
     input#mobile
-      min-width: (40% - base-line * 2)
-      margin-right: base-line
+      min-width: calc(40% - calc(10px * 2))
+      margin-right: 10px
     button#sign-out
       border: none
       padding: 0

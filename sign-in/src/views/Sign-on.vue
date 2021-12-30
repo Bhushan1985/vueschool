@@ -17,9 +17,9 @@
   import { ref } from 'vue'
   import firebase from 'firebase/app'
   import 'firebase/auth'
-  import MobileAsForm from '@/components/profile/as-form-mobile'
-  import NameAsForm from '@/components/profile/as-form-name'
-  import authentication from '@/mixins/signed_in'
+  import MobileAsForm from '@/components/profile/as-form-mobile.vue'
+  import NameAsForm from '@/components/profile/as-form-name.vue'
+  import authentication from '@/mixins/signed_in.js'
 
   const nameless = ref(false)
   const person = ref({ mobile: '' })
