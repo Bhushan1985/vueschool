@@ -81,5 +81,4 @@
       animation-duration: 5s
       animation-delay: 200ms
       animation-iteration-count: infinite
-  
 </style>
